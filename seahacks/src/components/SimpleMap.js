@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import { LocationIcon } from '@ticketmaster/aurora'
 
-const AnyReactComponent = ({ text }) => (
-    <div style={{
-      color: 'white',
-      background: 'grey',
-      padding: '15px 10px',
-      display: 'inline-flex',
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '100%',
-      transform: 'translate(-50%, -50%)'
-    }}>
-      {text}
-    </div>
-);
+const AnyReactComponent = () => <img src="https://img.icons8.com/color/24/000000/marker.png"></img>
+
+
 
 
 class SimpleMap extends Component {
@@ -24,9 +13,13 @@ class SimpleMap extends Component {
       lat: 47.599204,
       lng: -122.333416
     },
-    zoom: 11
+    zoom: 13
   };
 
+  _onChildClick = (key, childProps) => {
+    console.log("hello");
+  }
+  
   render() {
     return (
         // Important! Always set the container height explicitly
@@ -35,6 +28,7 @@ class SimpleMap extends Component {
               bootstrapURLKeys={{ key: 'AIzaSyA9-k5GJJlT6DgxujE-C-A3xstUkudfoVo'}}
               defaultCenter={this.props.center}
               defaultZoom={this.props.zoom}
+              onChildClick={this._onChildClick}
           >
             <AnyReactComponent
                 lat={47.590333}
