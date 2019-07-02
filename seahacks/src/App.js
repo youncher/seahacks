@@ -24,6 +24,7 @@ function App() {
           </Col>
           <Col xs={4} style={{ border: '2px solid black' }}>
             Scroll
+
           </Col>
         </Row>
       </Container>
