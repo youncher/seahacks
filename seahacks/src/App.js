@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { Header, Heading} from '@ticketmaster/aurora'
+import SimpleMap from './components/SimpleMap';
 
 function App() {
   return (
@@ -20,10 +21,11 @@ function App() {
         </Row>
         <Row>
           <Col xs={8} style={{ border: '2px solid black' }}>
-            Map
+            <SimpleMap></SimpleMap>
           </Col>
           <Col xs={4} style={{ border: '2px solid black' }}>
             Scroll
+
           </Col>
         </Row>
       </Container>
