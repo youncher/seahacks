@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { LocationIcon } from '@ticketmaster/aurora'
 
 const AnyReactComponent = () => <img src="https://img.icons8.com/color/24/000000/marker.png"></img>
 
