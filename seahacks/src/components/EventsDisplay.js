@@ -12,9 +12,13 @@ export default class EventsDisplay extends Component {
         <div>
           <Row style={{ height: '70vh', overflowY: 'auto' }}>
             {this.props.selectedEvents.map(event => {
-              return <div>
+              return <div style={{borderStyle: 'solid' , borderWidth: '.1px', width: '100%' , borderColor: 'rgba(0, 0, 0, .1)'}}>
                 <br />
                 <a className='independent-link' href={event.url}>{event.name}</a>
+                 <br/>
+                    {event.dates.start.localDate}
+                <br/>
+                    {event._embedded.venues[0].name}
               </div>
             })}
           </Row>
