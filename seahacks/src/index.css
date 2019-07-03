@@ -38,3 +38,15 @@ code {
 .marker-hover {
   transform: scale(1.3);
 }
+
+.fm-tooltip {
+  position: absolute;
+  left: 30px;
+  z-index: 10;
+  width: 100px;
+  padding: 5px;
+  background-color: #80b5ef;
+  color: white;
+  border-radius: 7px;
+  text-align: center;
+}

@@ -3,7 +3,7 @@ import {Row, Col} from 'reactstrap';
 import {Header, Heading, Banner} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
 import { BounceLoader } from 'react-spinners';
-import Filterbar from './components/Filterbar';
+import FilterBar from './components/FilterBar';
 import geohash from 'ngeohash';
 import zipcodeSearch from 'zipcodes';
 import EventsDisplay from './components/EventsDisplay';
@@ -65,7 +65,7 @@ export default class App extends React.Component {
                 venues: data._embedded.venues,
                 location: {lat, lng},
                 fetching: false,
-                center: {lat, lng}
+                center: {lat: Number(lat), lng: Number(lng)}
             }));
     };
 
@@ -185,7 +185,7 @@ export default class App extends React.Component {
                 </Header>
                 <div style={{padding: '0 50px'}}>
                     <Row style={{alignItems: 'center', margin: '10px'}}>
-                        <Filterbar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange}
+                        <FilterBar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange}
                                    onDistanceChange={this._onDistanceChange} onChange={this._onInputChange}
                                    onStateChange={this._onStateChange} startDate={this.state.startDate}
                                    endDate={this.state.endDate} zipcode={this.state.zipcode}

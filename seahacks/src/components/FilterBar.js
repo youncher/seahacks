@@ -5,13 +5,18 @@ import {Col} from 'reactstrap';
 import {DropDownGroup, DropDownOption, Button as AuroraButton} from '@ticketmaster/aurora';
 import PropTypes from 'prop-types';
 
-export default class Filterbar extends React.Component {
+export default class FilterBar extends React.Component {
 
     static propTypes = {
         onDateSelected: PropTypes.func.isRequired,
-        onDateChange: PropTypes.func,
-        onDistanceChange: PropTypes.func,
-        onZipChange: PropTypes.func
+        onDateChange: PropTypes.func.isRequired,
+        onDistanceChange: PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
+        onButtonClick: PropTypes.func.isRequired,
+        startDate: PropTypes.object,
+        endDate: PropTypes.object,
+        zipcode: PropTypes.string.isRequired,
+        distance: PropTypes.string.isRequired
     };
 
     constructor(props) {
@@ -53,7 +58,7 @@ export default class Filterbar extends React.Component {
                 </Col>
 
                 <Col xs={2}>
-                    <input type='text' className='DateInput_input DateInput_input_1' placeholder='Zipcode'
+                    <input type='number' value={this.props.zipcode} min={0} className='DateInput_input DateInput_input_1' placeholder='Zipcode'
                            onChange={(e) =>
                                this.props.onChange("zipcode", e.target.value)}/>
                 </Col>

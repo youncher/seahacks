@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 
 const AnyReactComponent = (props) => {
     let hover = props.$hover;
-    return <img alt="marker" className={hover ? "marker-hover" : ""} src="https://img.icons8.com/color/24/000000/marker.png"/>;
+    return (
+        <div>
+            {hover && <div className="fm-tooltip">{props.venueName}</div>}
+            <img alt="marker" className={hover ? "marker-hover" : ""} src="https://img.icons8.com/color/24/000000/marker.png"/>
+        </div>
+    );
 };
 
 
@@ -19,7 +24,9 @@ export default class SimpleMap extends Component {
   };
 
   static propTypes = {
-      venues: PropTypes.array.isRequired
+      venues: PropTypes.array.isRequired,
+      defaultCenter: PropTypes.object,
+      center: PropTypes.object.isRequired
   };
 
   _onChildClick = (key, childProps) => {
