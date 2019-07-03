@@ -1,12 +1,13 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
-import { Header, Heading} from '@ticketmaster/aurora'
+import {Row, Col} from 'reactstrap';
+import {Header, Heading, Banner} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
-import SpotifyPreview from "./SpotifyPreview";
+import { BounceLoader } from 'react-spinners';
 import Filterbar from './components/Filterbar';
 import geohash from 'ngeohash';
-import zipcode from 'zipcodes';
+import zipcodeSearch from 'zipcodes';
 import EventsDisplay from './components/EventsDisplay';
+import { css } from '@emotion/core';
 
 export default class App extends React.Component {
 
@@ -15,24 +16,31 @@ export default class App extends React.Component {
         this.state = {
             radius: 0,
             location: {
-                lat: null,
-                long: null
+                lat: 47.599204,
+                lng: -122.333416
+            },
+            center: {
+                lat: 47.599204,
+                lng: -122.333416
             },
             venues: [],
             events: {},
+            fetching: true,
             selectedVenue: null,
             selectedEvents: [],
             selectedEventArtist: null,
             endDate: null,
             startDate: null,
-            distance: null,
-            zipcode: null,
+            distance: "",
+            zipcode: "",
+            isError: false,
+            errorMessage: "Error fetching event information!"
         }
     }
 
     componentDidMount() {
         let position = {
-            coords: { latitude: "47.598686", longitude: "-122.334206"}
+            coords: {latitude: "47.598686", longitude: "-122.334206"}
         };
         this.fetchVenueInfo(position);
         // if (navigator.geolocation) {
@@ -43,98 +51,157 @@ export default class App extends React.Component {
     }
 
     fetchVenueInfo = (position) => {
-        let { latitude: lat, longitude: long } = position.coords;
-        let geoHash = geohash.encode(lat, long, 7);
-        fetch(`https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=${geoHash}`)
-            .then(response => response.json())
-            .then(data => this.setState({ venues: data._embedded.venues, location: { lat: lat, lng: long }}));
-    };
-
-    _onInputChange = (key, e) => {
-        this.setState(state => ({ ...state, [key]: e.target.value  }));
-    };
-
-    _onDateChange = (startDate, endDate) => {
-        this.setState(state => ({ ...state, startDate, endDate}));
-    };
-
-    _onDateSelect = (type) => {
-        console.log(type)
-        let startDate, endDate;
-
-        switch(type[0]) {
-          case 'today':
-            console.log('today');
-            break;
-          case 'tomorrow':
-            console.log('tomorrow');
-            break;
-          case 'weekend':
-            console.log('weekend');
-            break;
+        let {latitude: lat, longitude: lng} = position.coords;
+        let {distance} = this.state;
+        let geoHash = geohash.encode(lat, lng, 7);
+        let url = `https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=${geoHash}`;
+        if (distance !== "") {
+            url += `&radius=${distance}&unit=miles`;
         }
-    }
-
-    _onDistanceChange = (distance) => {
-        this.setState(state => ({...state, distance: distance[0]}));
-    }
-
-    _onZipchange = (zipcode) => {
-        this.setState(state => ({...state, zipcode}));
-    }
-
-    renderSpotifyComponent = artistName => {
-        return <SpotifyPreview artistName={artistName}/>;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => this.setState({
+                venues: data._embedded.venues,
+                location: {lat, lng},
+                fetching: false,
+                center: {lat, lng}
+            }));
     };
 
-    fetchEvents = (id) => {
-        fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&venueId=${id}&locale=*`)
+    fetchEvents = (id, name) => {
+        let {startDate, endDate} = this.state;
+        let url = `https://app.ticketmaster.com/discovery/v2/events?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&venueId=${id}&locale=*`;
+        if (startDate && endDate) {
+            url += `&startDateTime=${startDate.format('YYYY-MM-DDTHH:mm:ssZ')}&endDateTime=${endDate.format('YYYY-MM-DDTHH:mm:ssZ')}`;
+        }
+        fetch(url)
             .then(response => response.json())
             .then(data => {
-                this.setState(state => {
-                    let events = state.events;
-                    events[id] = data._embedded.events;
-                    return {
-                        ...state, events, selectedEvents: data._embedded.events
-                    };
-                });
+                if (data._embedded) {
+                    this.setState(state => {
+                        let events = state.events;
+                        events[id] = data._embedded.events;
+                        return {
+                            ...state, events, selectedEvents: data._embedded.events, selectedVenue: name
+                        };
+                    });
+                } else {
+                    this.setState({
+                        isError: true,
+                        errorMessage: "No events found!",
+                        selectedEvents: []
+                    });
+                }
             });
     };
 
     fetchArtist = (id) => {
         fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&id=${id}`)
             .then(response => response.json())
-            .then(data => this.setState({ selectedEventArtist: data._embedded.attractions[0].name}));
+            .then(data => this.setState({selectedEventArtist: data._embedded.attractions[0].name}));
 
     };
 
-    render() {
-      return (
-          <div className="App">
-              <Header
-                  withSpotLight
-              >
-                  <Heading level={1}>
-                      <Heading.Strong>Fan Map</Heading.Strong>
-                  </Heading>
-              </Header>
-              <div style={{ padding: '0 50px'}}>
-                  <Row>
-                    <Filterbar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange} onDistanceChange={this._onDistanceChange} onZipChange={this._onZipchange} onStateChange={this._onStateChange} startDate={this.state.startDate} endDate={this.state.endDate} zipcode={this.state.zipcode} distance={this.state.distance}/>
-                  </Row>
-                  <Row>
-                      <Col xs={9}>
-                          <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} fetchArtist={this.fetchArtist} />
-                      </Col>
-                      <Col xs={3}>
-                          <EventsDisplay selectedEvents={this.state.selectedEvents} fetchArtist={this.fetchArtist}/>
+    refreshMap = () => {
+        let {zipcode, location} = this.state;
+        let position;
+        if (zipcode !== "") {
+            let newLocation = zipcodeSearch.lookup(zipcode);
+            if (newLocation) {
+                position = {
+                    coords: {latitude: newLocation.latitude, longitude: newLocation.longitude}
+                };
+            } else {
+                this.setState({
+                    isError: true,
+                    errorMessage: "Zipcode was entered incorrectly."
+                });
+                return;
+            }
+        } else {
+            position = {
+                coords: {
+                    latitude: location.lat,
+                    longitude: location.lng
+                }
+            }
+        }
+        this.setState({
+            fetching: true,
+        }, () => this.fetchVenueInfo(position));
 
-                      </Col>
-                  </Row>
-              </div>
-          </div>
-      );
-  }
+    };
+
+    _onInputChange = (key, value) => {
+        this.setState(state => ({...state, [key]: value}));
+    };
+
+    _onDateChange = (startDate, endDate) => {
+        this.setState(state => ({...state, startDate, endDate}));
+    };
+
+    _onDateSelect = (type) => {
+        console.log(type)
+        let startDate, endDate;
+        switch (type[0]) {
+            case 'today':
+                console.log('today');
+                break;
+            case 'tomorrow':
+                console.log('tomorrow');
+                break;
+            case 'weekend':
+                console.log('weekend');
+                break;
+            default:
+                break;
+        }
+    };
+
+    _onDistanceChange = (distance) => {
+        this.setState(state => ({...state, distance: distance[0]}));
+    };
+
+    render() {
+        return (
+            <div className="App">
+                <Header
+                    withSpotLight
+                >
+                    <Heading level={1}>
+                        <Heading.Strong>Fan Map</Heading.Strong>
+                    </Heading>
+                </Header>
+                <div style={{padding: '0 50px'}}>
+                    <Row style={{alignItems: 'center', margin: '10px'}}>
+                        <Filterbar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange}
+                                   onDistanceChange={this._onDistanceChange} onChange={this._onInputChange}
+                                   onStateChange={this._onStateChange} startDate={this.state.startDate}
+                                   endDate={this.state.endDate} zipcode={this.state.zipcode}
+                                   distance={this.state.distance}
+                                   onButtonClick={this.refreshMap}
+                        />
+                    </Row>
+                    <div style={{ margin: '10px' }}>
+                        <Banner isOpen={this.state.isError} heading={this.state.errorMessage} onRequestClose={() => this.setState({ isError: false})} variant={"error"}/>
+                    </div>
+                    <Row>
+                        <Col xs={9}>
+                            <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues}
+                                       fetchArtist={this.fetchArtist} center={this.state.center}/>
+                            {this.state.fetching &&
+                            <div style={{ position: 'relative', width: '100%', height: '100%',
+                                top: '-50%' }}><BounceLoader css={css`margin-left: auto; margin-right: auto;`}  color={"#0150a7"}/></div>}
+                        </Col>
+                        <Col xs={3}>
+                            <EventsDisplay selectedEvents={this.state.selectedEvents} fetchArtist={this.fetchArtist}
+                                           selectedVenue={this.state.selectedVenue}/>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        );
+    }
 }
 
 

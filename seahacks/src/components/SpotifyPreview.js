@@ -8,8 +8,8 @@ export default class SpotifyPreview extends React.Component {
         artistName: PropTypes.string.isRequired
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             artistName: null
         }
@@ -18,7 +18,7 @@ export default class SpotifyPreview extends React.Component {
     componentDidMount() {
         fetch(`https://spotify-auth-340.herokuapp.com/spotify/artist/${this.props.artistName}`)
             .then(response => response.json())
-            .then(data => this.setState({ artistId: data.artists.items[0].id }))
+            .then(data => this.setState({artistId: data.artists.items[0].id}))
     }
 
     render() {
@@ -26,7 +26,8 @@ export default class SpotifyPreview extends React.Component {
         return (
             <div style={{width: '100%'}}>
                 {artistId &&
-                <iframe src={`https://open.spotify.com/embed/artist/${artistId}`} width="100%" height="100%" allow="encrypted-media"/>
+                <iframe title={artistId} src={`https://open.spotify.com/embed/artist/${artistId}`} width="100%" height="100%"
+                        allow="encrypted-media"/>
                 }
             </div>
         );

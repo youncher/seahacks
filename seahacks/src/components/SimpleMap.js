@@ -3,12 +3,15 @@ import GoogleMapReact from 'google-map-react';
 import PropTypes from 'prop-types';
 
 
-const AnyReactComponent = () => <img alt="marker" src="https://img.icons8.com/color/24/000000/marker.png" />;
+const AnyReactComponent = (props) => {
+    let hover = props.$hover;
+    return <img alt="marker" className={hover ? "marker-hover" : ""} src="https://img.icons8.com/color/24/000000/marker.png"/>;
+};
 
 
 export default class SimpleMap extends Component {
   static defaultProps = {
-    center: {
+    defaultCenter: {
       lat: 47.599204,
       lng: -122.333416
     },
@@ -16,11 +19,11 @@ export default class SimpleMap extends Component {
   };
 
   static propTypes = {
-      venues: PropTypes.object.isRequired
+      venues: PropTypes.array.isRequired
   };
 
   _onChildClick = (key, childProps) => {
-    this.props.fetchEvents(key);
+    this.props.fetchEvents(key, childProps.venueName);
   };
 
   mapVenues = () => {
@@ -28,7 +31,7 @@ export default class SimpleMap extends Component {
         let venuesArray = [];
         for (let i = 0; i < venues.length; i++) {
             let venue = venues[i];
-            let el = <AnyReactComponent key={venue.id} lat={venue.location.latitude} lng={venue.location.longitude}/>
+            let el = <AnyReactComponent key={venue.id} venueName={venue.name} lat={venue.location.latitude} lng={venue.location.longitude}/>
             venuesArray.push(el);
         }
         return venuesArray;
@@ -40,13 +43,14 @@ export default class SimpleMap extends Component {
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
               bootstrapURLKeys={{ key: 'AIzaSyA9-k5GJJlT6DgxujE-C-A3xstUkudfoVo'}}
-              defaultCenter={this.props.center}
+              defaultCenter={this.props.defaultCenter}
+              center={this.props.center || null}
               defaultZoom={this.props.zoom}
               onChildClick={this._onChildClick}
+              overlayViewDivStyle={{ borderRadius: '10px' }}
           >
               {this.props.venues.length > 0 && this.mapVenues()}
           </GoogleMapReact>
-
         </div>
     );
   }

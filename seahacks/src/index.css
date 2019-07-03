@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.DateInput {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  position: relative;
+  display: inline-block;
+  width: 100px!important;
+  font-size: 15px;
+  vertical-align: middle;
+}
+
+.DateInput_input {
+  font-size: 15px!important;
+}
+
+.iQnJQs label {
+  margin-bottom: 0;
+}
+
+.fm-rounded {
+  border-radius: 10px;
+}
+
+.marker-hover {
+  transform: scale(1.3);
+}
