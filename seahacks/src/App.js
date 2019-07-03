@@ -91,9 +91,16 @@ export default class App extends React.Component {
                           <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} />
                       </Col>
                       <Col xs={3}>
-                          {this.state.selectedEvents.map(event => {
-                              return <div>{event.name}</div>
-                          })}
+                          <Row style={{ height: '70vh', overflowY: 'auto' }}>
+                              {this.state.selectedEvents.map(event => {
+                              return <div>
+                                  <br/>{event.name}</div>
+                            })}
+                          </Row>
+                          <Row style={{ height: '30vh' }}>
+                              {/* fill box */}
+                              <SpotifyPreview artistName={"Adele"} />
+                          </Row>
                       </Col>
                   </Row>
               </div>
