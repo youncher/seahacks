@@ -24,9 +24,9 @@ export default class SpotifyPreview extends React.Component {
     render() {
         let artistId = this.state.artistId;
         return (
-            <div>
+            <div style={{width: '100%'}}>
                 {artistId &&
-                <iframe src={`https://open.spotify.com/embed/artist/${artistId}`} width="300" height="250" allow="encrypted-media"/>
+                <iframe src={`https://open.spotify.com/embed/artist/${artistId}`} width="100%" height="100%" allow="encrypted-media"/>
                 }
             </div>
         );
