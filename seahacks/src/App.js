@@ -1,9 +1,11 @@
 import React from 'react';
-import { Row, Col, Container } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Header, Heading} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
 import SpotifyPreview from "./SpotifyPreview";
 import Filterbar from './Filterbar';
+import geohash from 'ngeohash';
+import zipcode from 'zipcodes';
 
 export default class App extends React.Component {
 
@@ -25,14 +27,24 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchVenueInfo();
+        let position = {
+            coords: { latitude: "47.598686", longitude: "-122.334206"}
+        };
+        this.fetchVenueInfo(position);
+        // if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition(this.fetchVenueInfo);
+        // } else {
+        //     console.log("didn't work.");
+        // }
     }
 
-    fetchVenueInfo() {
-        fetch('https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=c23nb55')
+    fetchVenueInfo = (position) => {
+        let { latitude: lat, longitude: long } = position.coords;
+        let geoHash = geohash.encode(lat, long, 7);
+        fetch(`https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=${geoHash}`)
             .then(response => response.json())
-            .then(data => this.setState({ venues: data._embedded.venues }));
-    }
+            .then(data => this.setState({ venues: data._embedded.venues, location: { lat: lat, lng: long }}));
+    };
 
     _onInputChange = (key, e) => {
         this.setState(state => ({ ...state, [key]: e.target.value  }));
@@ -54,7 +66,7 @@ export default class App extends React.Component {
                     let events = state.events;
                     events[id] = data._embedded.events;
                     return {
-                        ...state, events
+                        ...state, events, selectedEvents: data._embedded.events
                     };
                 });
             });
@@ -70,19 +82,21 @@ export default class App extends React.Component {
                       <Heading.Strong>Explore</Heading.Strong>
                   </Heading>
               </Header>
-              <Container>
-                  <Row style={{ border: '2px solid black' }}>
-                    <Filterbar></Filterbar>
+              <div style={{ padding: '0 50px'}}>
+                  <Row>
+                    <Filterbar />
                   </Row>
                   <Row>
-                      <Col xs={8} style={{ border: '2px solid black' }}>
+                      <Col xs={9}>
                           <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} />
                       </Col>
-                      <Col xs={4} style={{ border: '2px solid black' }}>
-                          Scroll
+                      <Col xs={3}>
+                          {this.state.selectedEvents.map(event => {
+                              return <div>{event.name}</div>
+                          })}
                       </Col>
                   </Row>
-              </Container>
+              </div>
           </div>
       );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import 'react-dates/initialize';
 import { DateRangePicker, DayPickerRangeController } from 'react-dates';
 import { Button, ButtonGroup, Row, Col, Input} from 'reactstrap';
-import { Column, DropDownGroup, DropDownOption} from '@ticketmaster/aurora'
+import { Column, DropDownGroup, DropDownOption, Button as AuroraButton} from '@ticketmaster/aurora'
 
 export default class Filterbar extends React.Component {
 
@@ -29,11 +29,11 @@ export default class Filterbar extends React.Component {
                     onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                 />
             </Col>
-            <Col xs={4}>
-                <input type='text' className='DateInput_input DateInput_input_1' placeholder='Location'></input>
+            <Col xs={3}>
+                <input type='text' className='DateInput_input DateInput_input_1' placeholder='Zipcode'></input>
             </Col>
 
-            <Column medium={4}>
+            <Column medium={3}>
                 <DropDownGroup size="small" variant={1} placeholder="Distance">
                     <DropDownOption value="5" index={0}>5 miles</DropDownOption>
                     <DropDownOption value="10" index={1}>10 miles</DropDownOption>
@@ -41,6 +41,9 @@ export default class Filterbar extends React.Component {
                     <DropDownOption value="25" index={3}>25 miles</DropDownOption>
                     <DropDownOption value="50" index={4}>50 miles</DropDownOption>
                 </DropDownGroup>
+            </Column>
+            <Column medium={2}>
+                <AuroraButton>Refresh</AuroraButton>
             </Column>
             </React.Fragment>
         );
