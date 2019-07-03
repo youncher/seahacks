@@ -23,7 +23,7 @@ export default class EventsDisplay extends Component {
                 backgroundColor: '#1f262d',
                 color: 'white',
                 padding: '20px'
-            }}>
+            }} onClick={this.clickEvent}>
                 <div style={{ height: '100%'}}>
                     <img
                         src={event.images[0].url}
@@ -38,6 +38,12 @@ export default class EventsDisplay extends Component {
                 <DayTileButton href={event.url}>View Event</DayTileButton>
             < /DayTileItem>
         )
+    };
+
+    clickEvent = () => {
+        this.setState({
+            spotifyIsHidden: !this.state.spotifyIsHidden
+        })
     };
 
     render() {
@@ -59,4 +65,5 @@ export default class EventsDisplay extends Component {
             </div>
         );
     }
+
 }
