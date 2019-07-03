@@ -3,6 +3,7 @@ import { Row, Col, Container } from 'reactstrap';
 import { Header, Heading} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
 import SpotifyPreview from "./SpotifyPreview";
+import Filterbar from '.Filterbar';
 
 export default class App extends React.Component {
 
@@ -44,6 +45,7 @@ export default class App extends React.Component {
     renderSpotifyComponent = artistName => {
         return <SpotifyPreview artistName={artistName}/>;
     };
+import Filterbar from './Filterbar';
 
     fetchEvents = (id) => {
         fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&venueId=${id}&locale=*`)
@@ -71,6 +73,7 @@ export default class App extends React.Component {
               </Header>
               <Container>
                   <Row style={{ border: '2px solid black' }}>
+                    <Filterbar></Filterbar>
                   </Row>
                   <Row>
                       <Col xs={8} style={{ border: '2px solid black' }}>
