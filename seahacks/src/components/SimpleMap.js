@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import PropTypes from 'prop-types';
+import ListRow from '@ticketmaster/aurora';
+import {Row} from "reactstrap";
 
 const AnyReactComponent = () => <img alt="marker" src="https://img.icons8.com/color/24/000000/marker.png" />;
 
@@ -45,6 +47,7 @@ export default class SimpleMap extends Component {
           >
               {this.props.venues.length > 0 && this.mapVenues()}
           </GoogleMapReact>
+
         </div>
     );
   }
