@@ -23,6 +23,8 @@ export default class App extends React.Component {
             selectedEvents: [],
             endDate: null,
             startDate: null,
+            distance: null,
+            zipcode: null,
         }
     }
 
@@ -50,9 +52,34 @@ export default class App extends React.Component {
         this.setState(state => ({ ...state, [key]: e.target.value  }));
     };
 
-    _onDateChange = ({ startDate, endDate }) => {
+    _onDateChange = (startDate, endDate) => {
         this.setState(state => ({ ...state, startDate, endDate}));
     };
+
+    _onDateSelect = (type) => {
+        console.log(type)
+        let startDate, endDate;
+
+        switch(type[0]) {
+          case 'today':
+            console.log('today');
+            break;
+          case 'tomorrow':
+            console.log('tomorrow');
+            break;
+          case 'weekend':
+            console.log('weekend');
+            break;
+        }
+    }
+
+    _onDistanceChange = (distance) => {
+        this.setState(state => ({...state, distance: distance[0]}));
+    }
+
+    _onZipchange = (zipcode) => {
+        this.setState(state => ({...state, zipcode}));
+    }
 
     renderSpotifyComponent = artistName => {
         return <SpotifyPreview artistName={artistName}/>;
@@ -84,7 +111,7 @@ export default class App extends React.Component {
               </Header>
               <div style={{ padding: '0 50px'}}>
                   <Row>
-                    <Filterbar />
+                    <Filterbar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange} onDistanceChange={this._onDistanceChange} onZipChange={this._onZipchange} onStateChange={this._onStateChange} startDate={this.state.startDate} endDate={this.state.endDate} zipcode={this.state.zipcode} distance={this.state.distance}/>
                   </Row>
                   <Row>
                       <Col xs={9}>
