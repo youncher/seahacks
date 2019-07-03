@@ -23,7 +23,7 @@ export default class EventsDisplay extends Component {
                 backgroundColor: '#1f262d',
                 color: 'white',
                 padding: '20px'
-            }}>
+            }} onClick={this.clickEvent}>
                 <div style={{ height: '100%'}}>
                     <img
                         src={event.images[0].url}
@@ -40,13 +40,14 @@ export default class EventsDisplay extends Component {
         )
     };
 
+    clickEvent = () => {
+        this.setState({
+            spotifyIsHidden: !this.state.spotifyIsHidden
+        })
+    };
 
     render() {
-        const clickEvent = () => {
-            this.setState({
-                spotifyIsHidden: !this.state.spotifyIsHidden
-            })
-        };
+
         console.log(this.props.selectedEvents)
         const events = this.props.selectedEvents.map((event, index) => this.renderEvent(event));
         const venue = <h5 style={{ marginBottom: '0', textAlign: 'center', width: '100%' }}>{this.props.selectedEvents.length > 0 && this.props.selectedVenue}</h5>;
