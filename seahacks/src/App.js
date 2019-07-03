@@ -80,7 +80,7 @@ export default class App extends React.Component {
                   withSpotLight
               >
                   <Heading level={1}>
-                      <Heading.Strong>Explore</Heading.Strong>
+                      <Heading.Strong>Fan Map</Heading.Strong>
                   </Heading>
               </Header>
               <div style={{ padding: '0 50px'}}>
