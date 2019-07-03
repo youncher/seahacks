@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { Header, Heading} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
+import Filterbar from './Filterbar';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       </Header>
       <Container>
         <Row style={{ border: '2px solid black' }}>
-          Filter
+         <Filterbar></Filterbar>
+
         </Row>
         <Row>
           <Col xs={8} style={{ border: '2px solid black' }}>
