@@ -4,15 +4,28 @@ import {Row} from 'reactstrap'
 
 export default class EventsDisplay extends Component {
 
+//<img src={event[index].images[0].url}/>
+
+
+
+
     render() {
+
+        const clickEvent = () => {
+                        console.log("hi")
+                    };
+
         const events = this.props.selectedEvents.map((event, index) => {
                             return (
                                 <div style={{ borderStyle: 'solid', borderWidth: '.1px', width: '100%', height: '100px',
-                                              display: 'flex', borderColor: 'rgba(0, 0, 0, .1)'}}>
-                                    <br />
-                                    <a className='independent-link' href={event.url}>{event.name}</a>
-                                  <br/>
-                                  {event.dates.start.localDate}
+                                              display: 'flex', borderColor: 'rgba(0, 0, 0, .1)'}}
+                                     onClick={clickEvent}>
+                                    <img src={event.images[0].url} height="60" width="80"/>
+                                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                                        <a className='independent-link' href={event.url}>{event.name}</a>
+                                        <div>{event.dates.start.localDate}</div>
+                                        <br/>
+                                    </div>
                                 </div>
                             )});
         console.log(this.props.selectedEvents);
