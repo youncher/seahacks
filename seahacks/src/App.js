@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { Header, Heading} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
 import SpotifyPreview from "./SpotifyPreview";
-import Filterbar from './Filterbar';
+import Filterbar from './components/Filterbar';
 import geohash from 'ngeohash';
 import zipcode from 'zipcodes';
 
