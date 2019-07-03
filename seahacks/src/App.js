@@ -8,6 +8,7 @@ import geohash from 'ngeohash';
 import zipcodeSearch from 'zipcodes';
 import EventsDisplay from './components/EventsDisplay';
 import { css } from '@emotion/core';
+import moment from 'moment';
 
 export default class App extends React.Component {
 
@@ -141,21 +142,31 @@ export default class App extends React.Component {
     };
 
     _onDateSelect = (type) => {
-        console.log(type)
         let startDate, endDate;
         switch (type[0]) {
             case 'today':
-                console.log('today');
+                startDate = moment().startOf('day');
+                endDate = moment().endOf('day');
                 break;
             case 'tomorrow':
-                console.log('tomorrow');
+                let tomorrow = moment().add(1, 'day');
+                startDate = tomorrow.startOf('day');
+                endDate = tomorrow.endOf('day');
                 break;
             case 'weekend':
-                console.log('weekend');
+                let friday = moment().day(5);
+                let sunday = moment().day(7);
+                startDate = friday;
+                endDate = sunday;
                 break;
             default:
-                break;
+                startDate = null;
+                endDate = null;
         }
+        this.setState({
+            startDate,
+            endDate
+        });
     };
 
     _onDistanceChange = (distance) => {
