@@ -28,7 +28,7 @@ export default class App extends React.Component {
     }
 
     fetchVenueInfo() {
-        fetch('https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=gbsuv7z')
+        fetch('https://app.ticketmaster.com/discovery/v2/venues?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&locale=*&geoPoint=c23nb55')
             .then(response => response.json())
             .then(data => this.setState({ venues: data._embedded.venues }));
     }
@@ -39,13 +39,6 @@ export default class App extends React.Component {
 
     _onDateChange = ({ startDate, endDate }) => {
         this.setState(state => ({ ...state, startDate, endDate}));
-    };
-
-    mapVenues = () => {
-        return this.state.venues.map(venue => {
-            // add your markers here
-            return <div onClick={() => this.fetchEvents(venue.id)}>{venue.name}</div>
-        });
     };
 
     renderSpotifyComponent = artistName => {
@@ -81,7 +74,7 @@ export default class App extends React.Component {
                   </Row>
                   <Row>
                       <Col xs={8} style={{ border: '2px solid black' }}>
-                          <SimpleMap></SimpleMap>
+                          <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} />
                       </Col>
                       <Col xs={4} style={{ border: '2px solid black' }}>
                           Scroll

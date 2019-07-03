@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { LocationIcon } from '@ticketmaster/aurora'
+import PropTypes from 'prop-types';
 
-const AnyReactComponent = () => <img src="https://img.icons8.com/color/24/000000/marker.png"></img>
-
-
+const AnyReactComponent = () => <img src="https://img.icons8.com/color/24/000000/marker.png"></img>;
 
 
-class SimpleMap extends Component {
+export default class SimpleMap extends Component {
   static defaultProps = {
     center: {
       lat: 47.599204,
@@ -16,9 +14,24 @@ class SimpleMap extends Component {
     zoom: 13
   };
 
+  static propTypes = {
+      venues: PropTypes.object.isRequired
+  };
+
   _onChildClick = (key, childProps) => {
-    console.log("hello");
-  }
+    this.props.fetchEvents(key);
+  };
+
+  mapVenues = () => {
+      let venues = this.props.venues;
+        let venuesArray = [];
+        for (let i = 0; i < venues.length; i++) {
+            let venue = venues[i];
+            let el = <AnyReactComponent key={venue.id} lat={venue.location.latitude} lng={venue.location.longitude}/>
+            venuesArray.push(el);
+        }
+        return venuesArray;
+    };
   
   render() {
     return (
@@ -30,16 +43,9 @@ class SimpleMap extends Component {
               defaultZoom={this.props.zoom}
               onChildClick={this._onChildClick}
           >
-            <AnyReactComponent
-                lat={47.590333}
-                lng={-122.33285}
-                // text="My Marker"
-            />
+              {this.props.venues.length > 0 && this.mapVenues()}
           </GoogleMapReact>
         </div>
-
     );
   }
 }
-
-export default SimpleMap;
