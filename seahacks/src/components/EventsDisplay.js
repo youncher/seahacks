@@ -17,10 +17,9 @@ export default class EventsDisplay extends Component {
     render() {
 
         const clickEvent = () => {
-                          console.log("hi")
-                          this.state.spotifyIsHidden = false
-                          this.forceUpdate();
-//                        this.props.fetchArtist(key)
+                          this.setState({
+                                spotifyIsHidden: !this.state.spotifyIsHidden
+                          })
                     };
 
         const events = this.props.selectedEvents.map((event, index) => {
