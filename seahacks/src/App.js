@@ -100,8 +100,7 @@ export default class App extends React.Component {
                           <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} fetchArtist={this.fetchArtist} />
                       </Col>
                       <Col xs={3}>
-                          <EventsDisplay selectedEvents={this.state.selectedEvents} />
-                          <SpotifyPreview selectedEventArtist={this.state.selectedEventArtist} />
+                          <EventsDisplay selectedEvents={this.state.selectedEvents} fetchArtist={this.fetchArtist}/>
 
                       </Col>
                   </Row>

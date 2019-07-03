@@ -4,7 +4,12 @@ import {Row} from 'reactstrap'
 
 export default class EventsDisplay extends Component {
 
-//<img src={event[index].images[0].url}/>
+    constructor(props) {
+            super(props);
+            this.state = {
+                spotifyIsHidden: true
+            }
+        }
 
 
 
@@ -12,7 +17,10 @@ export default class EventsDisplay extends Component {
     render() {
 
         const clickEvent = () => {
-                        console.log("hi")
+                          console.log("hi")
+                          this.state.spotifyIsHidden = false
+                          this.forceUpdate();
+//                        this.props.fetchArtist(key)
                     };
 
         const events = this.props.selectedEvents.map((event, index) => {
@@ -42,7 +50,7 @@ export default class EventsDisplay extends Component {
                 </Row>
                 <Row style={{ height: '30vh' }}>
                     {/* fill box */}
-                    <SpotifyPreview artistName={artiste} />
+                    {!this.state.spotifyIsHidden && <SpotifyPreview artistName={"Avril"}/>}
                 </Row>
             </div>
         );
