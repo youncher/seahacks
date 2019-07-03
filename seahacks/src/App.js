@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col} from 'reactstrap';
-import {Header, Heading, Banner} from '@ticketmaster/aurora'
+import {Heading, Banner} from '@ticketmaster/aurora'
 import SimpleMap from './components/SimpleMap';
 import { BounceLoader } from 'react-spinners';
 import FilterBar from './components/FilterBar';
@@ -88,8 +88,8 @@ export default class App extends React.Component {
                     });
                 } else {
                     this.setState({
-                        isError: true,
-                        errorMessage: "No events found!",
+                        //isError: true,
+                        //errorMessage: "No events found!",
                         selectedEvents: []
                     });
                 }
@@ -176,13 +176,9 @@ export default class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <Header
-                    withSpotLight
-                >
-                    <Heading level={1}>
-                        <Heading.Strong>Fan Map</Heading.Strong>
-                    </Heading>
-                </Header>
+
+            <img src='./headerbar.png' style={{width: '100vw'}}/>
+
                 <div style={{padding: '0 50px'}}>
                     <Row style={{alignItems: 'center', margin: '10px'}}>
                         <FilterBar onDateSelected={this._onDateSelect} onDateChange={this._onDateChange}
@@ -210,6 +206,8 @@ export default class App extends React.Component {
                         </Col>
                     </Row>
                 </div>
+                <img src='./footer.png' style={{width:'100vw'}}/>
+
             </div>
         );
     }
