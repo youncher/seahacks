@@ -11,7 +11,7 @@ export default class SpotifyPreview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            artistName: null
+            artistId: null
         }
     }
 

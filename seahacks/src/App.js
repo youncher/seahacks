@@ -193,21 +193,20 @@ export default class App extends React.Component {
                         <Banner isOpen={this.state.isError} heading={this.state.errorMessage} onRequestClose={() => this.setState({ isError: false})} variant={"error"}/>
                     </div>
                     <Row>
-                        <Col xs={9}>
+                        <Col xs={12} md={9}>
                             <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues}
                                        fetchArtist={this.fetchArtist} center={this.state.center}/>
                             {this.state.fetching &&
                             <div style={{ position: 'relative', width: '100%', height: '100%',
                                 top: '-50%' }}><BounceLoader css={css`margin-left: auto; margin-right: auto;`}  color={"#0150a7"}/></div>}
                         </Col>
-                        <Col xs={3}>
+                        <Col xs={12} md={3}>
                             <EventsDisplay selectedEvents={this.state.selectedEvents} fetchArtist={this.fetchArtist}
                                            selectedVenue={this.state.selectedVenue}/>
                         </Col>
                     </Row>
                 </div>
                 <img src='./footer.png' style={{width:'100vw'}}/>
-
             </div>
         );
     }

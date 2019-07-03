@@ -40,14 +40,7 @@ export default class EventsDisplay extends Component {
         )
     };
 
-
     render() {
-        const clickEvent = () => {
-            this.setState({
-                spotifyIsHidden: !this.state.spotifyIsHidden
-            })
-        };
-        console.log(this.props.selectedEvents)
         const events = this.props.selectedEvents.map((event, index) => this.renderEvent(event));
         const venue = <h5 style={{ marginBottom: '0', textAlign: 'center', width: '100%' }}>{this.props.selectedEvents.length > 0 && this.props.selectedVenue}</h5>;
         //const artiste = <div>{this.props.selectedEvents.length > 0 && this.props.selectedEvents[0]._embedded.attractions[0].name}</div>

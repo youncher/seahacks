@@ -29,12 +29,12 @@ export default class FilterBar extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Col xs={1}>
+                <Col xs={4} md={1}>
                     <span style={{fontWeight: 'bold'}}>
                     Filters:
                     </span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={8} md={2}>
                     <DropDownGroup size="small" variant={1} placeholder="Select dates"
                                    onChange={this.props.onDateSelected}>
                         <DropDownOption value="" selected index={0}>Select dates</DropDownOption>
@@ -44,7 +44,7 @@ export default class FilterBar extends React.Component {
                     </DropDownGroup>
                 </Col>
 
-                <Col xs={3}>
+                <Col xs={6} md={3}>
                     <DateRangePicker
                         startDate={this.props.startDate} // momentPropTypes.momentObj or null,
                         startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
@@ -57,13 +57,13 @@ export default class FilterBar extends React.Component {
                     />
                 </Col>
 
-                <Col xs={2}>
+                <Col xs={6} md={2}>
                     <input type='number' value={this.props.zipcode} min={0} className='DateInput_input DateInput_input_1' placeholder='Zipcode'
                            onChange={(e) =>
                                this.props.onChange("zipcode", e.target.value)}/>
                 </Col>
 
-                <Col xs={2}>
+                <Col xs={6} md={2}>
                     <DropDownGroup size="small" variant={1} placeholder="Distance"
                                    onChange={this.props.onDistanceChange}>
                         <DropDownOption value="5" index={0}>5 miles</DropDownOption>
@@ -73,7 +73,7 @@ export default class FilterBar extends React.Component {
                         <DropDownOption value="50" index={4}>50 miles</DropDownOption>
                     </DropDownGroup>
                 </Col>
-                <Col xs={2}>
+                <Col xs={6} md={2}>
                     <AuroraButton onClick={this.props.onButtonClick}>Refresh</AuroraButton>
                 </Col>
             </React.Fragment>

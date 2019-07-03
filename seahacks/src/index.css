@@ -50,3 +50,13 @@ code {
   border-radius: 7px;
   text-align: center;
 }
+
+.fm-map {
+  height: 50vh;
+}
+
+  @media (min-width: 667px) {
+    .fm-map {
+      height: 100vh;
+    }
+  }
