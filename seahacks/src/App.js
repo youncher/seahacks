@@ -6,6 +6,7 @@ import SpotifyPreview from "./SpotifyPreview";
 import Filterbar from './Filterbar';
 import geohash from 'ngeohash';
 import zipcode from 'zipcodes';
+import EventsDisplay from './components/EventsDisplay';
 
 export default class App extends React.Component {
 
@@ -91,16 +92,7 @@ export default class App extends React.Component {
                           <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} />
                       </Col>
                       <Col xs={3}>
-                          <Row style={{ height: '70vh', overflowY: 'auto' }}>
-                              {this.state.selectedEvents.map(event => {
-                              return <div>
-                                  <br/>{event.name}</div>
-                            })}
-                          </Row>
-                          <Row style={{ height: '30vh' }}>
-                              {/* fill box */}
-                              <SpotifyPreview artistName={"Adele"} />
-                          </Row>
+                          <EventsDisplay selectedEvents={this.state.selectedEvents} />
                       </Col>
                   </Row>
               </div>
