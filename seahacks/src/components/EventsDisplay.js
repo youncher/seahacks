@@ -9,10 +9,12 @@ export default class EventsDisplay extends Component {
     render() {
         const events = this.props.selectedEvents.map((event, index) => {
                             return (
-                                <div style={{ borderStyle: 'solid', borderWidth: '.5px', width: '100%', height: '100px',
-                                              display: 'flex'}}>
+                                <div style={{ borderStyle: 'solid', borderWidth: '.1px', width: '100%', height: '100px',
+                                              display: 'flex', borderColor: 'rgba(0, 0, 0, .1)'}}>
                                     <br />
                                     <a className='independent-link' href={event.url}>{event.name}</a>
+                                  <br/>
+                                  {event.dates.start.localDate}
                                 </div>
                             )});
         console.log(this.props.selectedEvents);
