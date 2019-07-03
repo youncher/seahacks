@@ -4,8 +4,6 @@ import {Row} from 'reactstrap'
 
 export default class EventsDisplay extends Component {
 
-
-
     render() {
         const events = this.props.selectedEvents.map((event, index) => {
                             return (
@@ -19,6 +17,7 @@ export default class EventsDisplay extends Component {
                             )});
         console.log(this.props.selectedEvents);
         const venue = <div>{this.props.selectedEvents.length > 0 && this.props.selectedEvents[0]._embedded.venues[0].name}</div>
+        const artiste = <div>{this.props.selectedEvents.length > 0 && this.props.selectedEvents[0]._embedded.attractions[0].name}</div>
 
         return (
             <div>
@@ -30,7 +29,7 @@ export default class EventsDisplay extends Component {
                 </Row>
                 <Row style={{ height: '30vh' }}>
                     {/* fill box */}
-                    <SpotifyPreview artistName={"Adele"} />
+                    <SpotifyPreview artistName={artiste} />
                 </Row>
             </div>
         );

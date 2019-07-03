@@ -22,6 +22,7 @@ export default class App extends React.Component {
             events: {},
             selectedVenue: null,
             selectedEvents: [],
+            selectedEventArtist: null,
             endDate: null,
             startDate: null,
         }
@@ -73,6 +74,13 @@ export default class App extends React.Component {
             });
     };
 
+    fetchArtist = (id) => {
+        fetch(`https://app.ticketmaster.com/discovery/v2/events?apikey=cbPyuGXG7tj9nDEnQTaj1ptfM0HakPA5&id=${id}`)
+            .then(response => response.json())
+            .then(data => this.setState({ selectedEventArtist: data._embedded.attractions[0].name}));
+
+    };
+
     render() {
       return (
           <div className="App">
@@ -89,10 +97,12 @@ export default class App extends React.Component {
                   </Row>
                   <Row>
                       <Col xs={9}>
-                          <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} />
+                          <SimpleMap fetchEvents={this.fetchEvents} venues={this.state.venues} fetchArtist={this.fetchArtist} />
                       </Col>
                       <Col xs={3}>
                           <EventsDisplay selectedEvents={this.state.selectedEvents} />
+                          <SpotifyPreview selectedEventArtist={this.state.selectedEventArtist} />
+
                       </Col>
                   </Row>
               </div>
